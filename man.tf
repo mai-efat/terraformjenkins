@@ -1,8 +1,4 @@
-provider "aws" {
-  region =  "eu-north-1"
-  access_key = "AKIAZ24ISSJ3F7FKVB5M"
-  secret_key = "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"
-}
+
 
 
 resource "aws_vpc" "terraform-lab-vpc" {
