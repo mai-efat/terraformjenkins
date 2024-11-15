@@ -1,0 +1,15 @@
+# Ignore Terraform state files
+*.tfstate
+*.tfstate.backup
+
+# Ignore .terraform directory (which contains plugins)
+.terraform/
+
+# Ignore override files
+override.tf
+override.tf.json
+*override.tf
+*override.tf.json
+
+# Ignore .terraform.lock.hcl file (optional, if you want to ignore the lock file)
+.terraform.lock.hcl
