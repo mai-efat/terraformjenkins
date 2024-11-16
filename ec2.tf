@@ -51,7 +51,7 @@ resource "aws_instance" "ec2-public-1" {
     connection {
       type        = "ssh"
       user        = "ec2-user"  # Change for different AMI types (e.g., ubuntu for Ubuntu instances)
-      private_key = file("C:\\Users\\mai\\Downloads\\key1.pem")  # Path to your SSH private key
+      private_key = file("/home/mai/Downloads/key1.pem") # Path to your SSH private key
       host        = self.public_ip  # Use public IP of the instance
     }
   }
