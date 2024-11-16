@@ -31,18 +31,9 @@ resource "aws_instance" "ec2-public-1" {
   security_groups             = [aws_security_group.ec2.id]  # Ensure this security group is defined
   subnet_id                   = aws_subnet.public-subnet-1.id
 
- 
-  provisioner "remote-exec" {
-
-
     # Connection information for SSH access
-    connection {
-      type        = "ssh"
-      user        = "ec2-user"  # Change for different AMI types (e.g., ubuntu for Ubuntu instances)
-      private_key = file("/home/mai/Downloads/key1.pem") # Path to your SSH private key
-      host        = self.public_ip  # Use public IP of the instance
-    }
-  }
+
+  
   lifecycle {
     ignore_changes = [
       ami,               # Ignore changes to AMI
@@ -53,9 +44,7 @@ resource "aws_instance" "ec2-public-1" {
   }
 
 
-  tags = {
-    Name = "nginx-instance"
-  }
+
 }
 
 
