@@ -1,0 +1,47 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Git Clone') {
+            steps {
+                script {
+                    // Clone the Git repository
+                    sh 'git clone https://github.com/mai-efat/terraformjenkins.git'
+                }
+            }
+        }
+
+        stage('Terraform Init') {
+            steps {
+                script {
+                    // Ensure we are in the cloned directory
+                    dir('terraformjenkins') {
+                        // Initialize Terraform
+                        withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+                            sh 'terraform init'  // Initialize Terraform
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Terraform Apply') {
+            steps {
+                script {
+                    // Ensure we are in the correct directory
+                    dir('terraformjenkins') {
+                        // Apply Terraform
+                        withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+                        sh 'terraform destroy'
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            cleanWs()  // Clean up the workspace after execution
+        }
+    }
