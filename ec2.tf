@@ -1,34 +1,3 @@
-
-resource "aws_instance" "ec2-private-1" {
-  ami                         = data.aws_ami.amazon_linux_2.id
-  instance_type               = "t3.micro"
-  key_name                    = "key1"
- 
-
-  network_interface {
-    network_interface_id = aws_network_interface.my_network_interface.id
-    device_index         = 0
-  }
-
-  user_data = <<-EOF
-              #!/bin/bash
-              sudo yum update -y
-              sudo yum install -y nginx
-              sudo systemctl start nginx
-              sudo systemctl enable nginx
-              EOF
-  lifecycle {
-    ignore_changes = [
-      vpc_security_group_ids,
-      root_block_device[0].volume_size,     # or other attributes in root_block_device
-      root_block_device[0].delete_on_termination
-    ]
-  }
-  
-  tags = {
-    Name = "apache-1"
-  }
-}
 resource "aws_instance" "ec2-public-1" {
   ami                         = data.aws_ami.amazon_linux_2.id
   instance_type               = "t3.micro"
@@ -39,13 +8,7 @@ resource "aws_instance" "ec2-public-1" {
 
  
   provisioner "remote-exec" {
-    inline = [
-      "sudo yum update -y",
-      "sudo amazon-linux-extras enable nginx1",
-      "sudo yum install -y nginx",
-      "sudo systemctl start nginx",
-      "sudo systemctl enable nginx"
-    ]
+
 
     # Connection information for SSH access
     connection {
